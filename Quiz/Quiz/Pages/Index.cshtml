@@ -1,0 +1,16 @@
+﻿@page
+@model IndexModel
+
+@{
+	ViewData["Title"] = "Home page";
+}
+
+<h3>Counter table</h3>
+
+<table class="table" border="1">
+	<tr><td><h6>Id</h6></td><td><h6>Value</h6></td></tr>
+	@foreach (var counter in Model.counters)
+	{
+		<tr><td>@counter.Id</td><td>@counter.Value</td></tr>
+	}
+</table>

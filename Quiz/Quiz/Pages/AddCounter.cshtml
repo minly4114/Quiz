@@ -1,0 +1,13 @@
+﻿@page
+@model Quiz.Pages.AddCounterModel
+@{
+    ViewData["Title"] = "AddCounter";
+}
+
+<h3>Add counter</h3>
+<form asp-page-handler="view">
+	<i>Введите Id </i><input name="inputId" /><i>Введите Value </i><input name="inputValue" /><button name="btAdd">Добавить</button>
+</form>
+<br />
+<label name="labelMessage">@Model.message</label>
+
