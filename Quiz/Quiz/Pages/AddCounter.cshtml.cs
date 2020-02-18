@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quiz.DataBase;
+using Quiz.DataBase.IProviders;
 
 namespace Quiz.Pages
 {
     public class AddCounterModel : PageModel
     {
+        private readonly ICountersProvider _countersProvider;
+        public AddCounterModel(ICountersProvider countersProvider)
+        {
+            _countersProvider = countersProvider;
+        }
         public string message;
         public void OnGet()
         {
@@ -20,19 +22,19 @@ namespace Quiz.Pages
             message = "";
             int id = 0;
             int value = 0;
-            try
+            if (int.TryParse(inputId, out int idResult) && int.TryParse(inputValue, out int valueResult))
             {
-                id = Int32.Parse(inputId);
-                value = Int32.Parse(inputValue);
-                DatabaseAdapter.AddCounter(new List<Counter>()
+                id = idResult;
+                value = valueResult;
+                _countersProvider.AddCounterAsync(new List<Counter>()
                 {
                 new Counter(id, value),
                 });
                 message = "Counter успешно добавлен";
             }
-            catch
+            else
             {
-                message = "Введите коректные данные ";              
+                message = "Введите коректные данные ";
             }
         }
     }

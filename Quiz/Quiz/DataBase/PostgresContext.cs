@@ -1,29 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Npgsql.EntityFrameworkCore;
 
 namespace Quiz.DataBase
 {
-    public class PostgresContext:DbContext
+    public class PostgresContext : DbContext
     {
         public DbSet<Counter> Counters { get; set; }
-        //public PostgresContext()
-        //{
-        //    Database.EnsureCreated();
-        //}
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseNpgsql("Host=localhost;Database=Quiz;Username=postgres;Password=123;Port=5432");
-
-        //}
         public PostgresContext(DbContextOptions<PostgresContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            List<Counter> counters = new List<Counter>() {
+                    new Counter(1, 1),
+                    new Counter(1, 2),
+                    new Counter(1, 3),
+                    new Counter(2, 1),
+                    new Counter(2, 1),
+                    new Counter(2, 3),
+                    new Counter(2, 1)
+            };
+            modelBuilder.Entity<Counter>().HasData(counters);
+        }
     }
 }

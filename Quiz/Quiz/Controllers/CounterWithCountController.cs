@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Quiz.DataBase;
-using Quiz.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using Quiz.DataBase.IProviders;
 
 namespace Quiz.Controllers
 {
     public class CounterWithCountController : Controller
     {
-        public List<CounterWithCount> counterThisCounts;
-        public CounterWithCountController()
+        private readonly ICountersProvider _countersProvider;
+        public CounterWithCountController(ICountersProvider countersProvider)
         {
-            counterThisCounts = DatabaseAdapter.GetCountersWithCount();
+            _countersProvider = countersProvider;
         }
         public IActionResult Index()
         {
-            return View(DatabaseAdapter.GetCountersWithCount());
+            return View(_countersProvider.GetCountersWithCount());
         }
     }
 }
